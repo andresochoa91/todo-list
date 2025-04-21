@@ -1,21 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import TodoList from './features/TodoList/TodoList';
+import TodoForm from './features/TodoForm';
+import Title from './Title';
 
 function App() {
-  const todos = [
-    { id: 1, title: 'review resources' },
-    { id: 2, title: 'take notes' },
-    { id: 3, title: 'code out app' },
-  ];
+  const [todoList, setTodoList] = useState([]);
+  const [workingTodo, setWorkingTodo] = useState('');
+
+  function handleAddTodo(newTodo) {
+    setTodoList([...todoList, newTodo]);
+  }
+
+  function onCompleteTodo(id) {
+    setTodoList(
+      todoList.map((todo) => {
+        if (todo.id === id) {
+          todo.isCompleted = true;
+        }
+        return todo;
+      })
+    );
+  }
+
+  function updateTodo(editedTodo) {
+    setTodoList(
+      todoList.map((todo) => {
+        if (todo.id === editedTodo.id) {
+          todo.title = editedTodo.title;
+        }
+        return todo;
+      })
+    );
+  }
 
   return (
     <div>
-      <h1>My Todos</h1>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul>
+      <Title title="Todo List" />
+      <TodoForm
+        onAddTodo={handleAddTodo}
+        workingTodo={workingTodo}
+        setWorkingTodo={setWorkingTodo}
+      />
+      <TodoList
+        todoList={todoList}
+        onCompleteTodo={onCompleteTodo}
+        updateTodo={updateTodo}
+      />
     </div>
   );
 }
