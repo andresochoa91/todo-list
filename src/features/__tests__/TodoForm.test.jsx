@@ -1,55 +1,133 @@
 import React from 'react';
 import { describe, expect, it } from 'vitest';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import TodoForm from '../TodoForm';
 
 describe('TodoForm input', () => {
-  it('checks input is in document', () => {
-    const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
-    expect(getByTestId('todoTitle')).toBeInTheDocument();
+  it('contains a `main` html element', () => {
+    render(<TodoForm onAddTodo={() => {}} />);
+    expect(screen.getByTestId('todoTitle')).toBeInTheDocument();
   });
 
   it('checks that TodoForm button is disabled', () => {
-    const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
-    expect(getByTestId('addTodoButton')).toBeDisabled();
+    render(<TodoForm onAddTodo={() => {}} />);
+    expect(screen.getByTestId('addTodoButton')).toBeDisabled();
   });
 
-  it('checks that TodoForm button is enabled after typing "enabled"', () => {
-    const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
+  it('checks that TodoForm button is enabled after typing "enabled"', async () => {
+    function setup(jsx) {
+      return {
+        user: userEvent.setup(),
+        ...render(jsx),
+      };
+    }
 
-    const input = getByTestId('todoTitle');
+    const { user } = setup(<TodoForm onAddTodo={() => {}} />);
 
-    fireEvent.change(input, { target: { value: 'enabled' } });
+    const input = screen.getByTestId('todoTitle');
+    const button = screen.getByTestId('addTodoButton');
 
-    expect(getByTestId('addTodoButton')).not.toBeDisabled();
+    await user.type(input, 'enabled');
+
+    expect(button).not.toBeDisabled();
   });
 
-  it('checks that TodoForm button is disable after typing "enabled" and deliting what was typed', () => {
-    const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
+  it('checks that TodoForm button is disabled after typing "enabled" and deleting what was typed', async () => {
+    function setup(jsx) {
+      return {
+        user: userEvent.setup(),
+        ...render(jsx),
+      };
+    }
 
-    const input = getByTestId('todoTitle');
+    const { user } = setup(<TodoForm onAddTodo={() => {}} />);
 
-    fireEvent.change(input, { target: { value: 'enabled' } });
+    const input = screen.getByTestId('todoTitle');
+    const button = screen.getByTestId('addTodoButton');
 
-    expect(getByTestId('addTodoButton')).not.toBeDisabled();
+    await user.type(input, 'enabled');
 
-    fireEvent.change(input, { target: { value: '' } });
+    expect(button).not.toBeDisabled();
+    expect(input).toHaveValue('enabled');
 
-    expect(getByTestId('addTodoButton')).toBeDisabled();
+    await user.clear(input);
+
+    expect(button).toBeDisabled();
   });
 
-  it('checks that TodoForm button is disable after typing "enabled" hitting button', () => {
+  it('checks that TodoForm button is disabled after typing "enabled" hitting button', async () => {
+    function setup(jsx) {
+      return {
+        user: userEvent.setup(),
+        ...render(jsx),
+      };
+    }
+
     const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
 
     const input = getByTestId('todoTitle');
     const button = getByTestId('addTodoButton');
 
-    fireEvent.change(input, { target: { value: 'enabled' } });
+    const { user } = setup(<TodoForm onAddTodo={() => {}} />);
+
+    await user.type(input, 'enabled');
 
     expect(button).not.toBeDisabled();
 
-    fireEvent.click(button);
+    await user.click(button);
 
     expect(button).toBeDisabled();
   });
 });
+
+// describe('TodoForm input', () => {
+//   it('checks input is in document', () => {
+//     const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
+//     expect(getByTestId('todoTitle')).toBeInTheDocument();
+//   });
+
+//   it('checks that TodoForm button is disabled', () => {
+//     const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
+//     expect(getByTestId('addTodoButton')).toBeDisabled();
+//   });
+
+//   it('checks that TodoForm button is enabled after typing "enabled"', () => {
+//     const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
+
+//     const input = getByTestId('todoTitle');
+
+//     fireEvent.change(input, { target: { value: 'enabled' } });
+
+//     expect(getByTestId('addTodoButton')).not.toBeDisabled();
+//   });
+
+//   it('checks that TodoForm button is disable after typing "enabled" and deliting what was typed', () => {
+//     const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
+
+//     const input = getByTestId('todoTitle');
+
+//     fireEvent.change(input, { target: { value: 'enabled' } });
+
+//     expect(getByTestId('addTodoButton')).not.toBeDisabled();
+
+//     fireEvent.change(input, { target: { value: '' } });
+
+//     expect(getByTestId('addTodoButton')).toBeDisabled();
+//   });
+
+//   it('checks that TodoForm button is disable after typing "enabled" hitting button', () => {
+//     const { getByTestId } = render(<TodoForm onAddTodo={() => {}} />);
+
+//     const input = getByTestId('todoTitle');
+//     const button = getByTestId('addTodoButton');
+
+//     fireEvent.change(input, { target: { value: 'enabled' } });
+
+//     expect(button).not.toBeDisabled();
+
+//     fireEvent.click(button);
+
+//     expect(button).toBeDisabled();
+//   });
+// });
