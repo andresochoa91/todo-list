@@ -7,10 +7,13 @@ const TodosViewForm = ({
   setSortField,
 }) => {
   return (
-    <form onSubmit={(event) => event.preventDefault()}>
+    <form>
       <div>
         <label>Sort by</label>
-        <select value={sortField} onChange={(event) => setSortField(event)}>
+        <select
+          value={sortField}
+          onChange={(event) => setSortField(event.target.value)}
+        >
           <option value="title">Title</option>
           <option value="createdTime">Time added</option>
         </select>

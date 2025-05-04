@@ -23,8 +23,6 @@ function App() {
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirections] = useState('desc');
 
-  const encodedUrl = encodeUrl({ sortField, sortDirection });
-
   useEffect(() => {
     return async () => {
       setIsLoading(true);
@@ -130,7 +128,10 @@ function App() {
     try {
       setIsSaving(true);
 
-      const resp = await fetch(encodedUrl, options);
+      const resp = await fetch(
+        encodeUrl({ sortField, sortDirection }),
+        options
+      );
 
       if (!resp.ok) {
         throw new Error(resp.errorMessage);
@@ -188,7 +189,10 @@ function App() {
     try {
       setIsSaving(true);
 
-      const resp = await fetch(encodedUrl, options);
+      const resp = await fetch(
+        encodeUrl({ sortField, sortDirection }),
+        options
+      );
 
       if (!resp.ok) {
         throw new Error(resp.errorMessage);
