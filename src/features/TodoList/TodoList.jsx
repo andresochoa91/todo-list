@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import TodoListItem from './TodoListItem';
 
 function TodoList({ todoList, onCompleteTodo, updateTodo }) {
-  const filteredTodoList = todoList.filter((todo) => !todo.isCompleted);
+  const filteredTodoList = useMemo(() => {
+    return todoList.filter((todo) => !todo.isCompleted);
+  }, [todoList]);
 
   return (
     <>

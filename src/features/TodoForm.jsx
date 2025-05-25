@@ -30,7 +30,11 @@ function TodoForm({ onAddTodo, isSaving }) {
         elementId={'todoTitle'}
         labelText={'Todo'}
       />
-      <button disabled={!workingTodo} data-testid={'addTodoButton'}>
+      <button
+        className={'Button'}
+        disabled={!workingTodo}
+        data-testid={'addTodoButton'}
+      >
         {isSaving ? 'Saving...' : 'Add todo'}
       </button>
     </form>

@@ -1,0 +1,31 @@
+/* .item {
+  font-size: 1rem;
+  color: var(--dark-blue);
+  border-radius: var(--small-radius);
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  padding-left: 0.75rem;
+} */
+
+.Body {
+  display: flex;
+  justify-content: center;
+}
+
+.Border {
+  border: 2px dotted #222222;
+}
+
+/* .item img {
+  max-height: 72px;
+}
+
+.subtotal {
+  border-left: 1px solid var(--dark-blue);
+  padding: 0.25rem;
+  text-align: right;
+} */
