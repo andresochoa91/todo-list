@@ -18,9 +18,9 @@ function App() {
 
   // const [todoList, setTodoList] = useState([]);
   // const [_, setTodoList] = useState([]);
-  const [workingTodo, setWorkingTodo] = useState('');
+  // const [workingTodo, setWorkingTodo] = useState('');
   // const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  // const [errorMessage, setErrorMessage] = useState('');
   // const [isSaving, setIsSaving] = useState(false);
   const [sortField, setSortField] = useState('createdTime');
   const [sortDirection, setSortDirections] = useState('desc');
@@ -68,10 +68,12 @@ function App() {
           dispatch({ type: actionTypes.loadTodos, payload: records });
         }
       } catch (error) {
-        setErrorMessage(error.message);
-      } finally {
-        // setIsLoading(false);
+        // setErrorMessage(error.message);
+        dispatch({ type: actionTypes.setLoadError, payload: error.message });
       }
+      // finally {
+      //   // setIsLoading(false);
+      // }
     };
     fetchTodos();
   }, [sortField, sortDirection, queryString]);
@@ -122,10 +124,12 @@ function App() {
         // setTodoList([...todosState.todoList, newTodoRecordToSet]);
       }
     } catch (error) {
-      setErrorMessage(error.errorMessage);
-    } finally {
-      // setIsSaving(false);
+      // setErrorMessage(error.errorMessage);
+      dispatch({ type: actionTypes.setLoadError, payload: error.message });
     }
+    // finally {
+    //   // setIsSaving(false);
+    // }
   }
 
   async function onCompleteTodo(id) {
@@ -189,10 +193,12 @@ function App() {
         // setTodoList([...updatedTodos]);
       }
     } catch (error) {
-      setErrorMessage(error.message);
-    } finally {
-      // setIsSaving(false);
+      // setErrorMessage(error.message);
+      dispatch({ type: actionTypes.setLoadError, payload: error.message });
     }
+    // finally {
+    //   // setIsSaving(false);
+    // }
   }
 
   async function updateTodo(editedTodo) {
@@ -250,21 +256,23 @@ function App() {
         // setTodoList([...updatedTodos]);
       }
     } catch (error) {
-      setErrorMessage(`${error.message}. Reverting todo...`);
+      // setErrorMessage(`${error.message}. Reverting todo...`);
+      dispatch({ type: actionTypes.setLoadError, payload: error.message });
       // setTodoList([...revertedTodos]);
-    } finally {
-      // setIsSaving(false);
     }
+    // finally {
+    //   // setIsSaving(false);
+    // }
   }
 
   return (
     <div className={style.Body}>
       <div>
-        <Title title="Todo List" />
+        <Title /* title={title} setTitle={setTitle} */ />
         <TodoForm
           onAddTodo={handleAddTodo}
-          workingTodo={workingTodo}
-          setWorkingTodo={setWorkingTodo}
+          // workingTodo={workingTodo}
+          // setWorkingTodo={setWorkingTodo}
           isSaving={todosState.isSaving}
         />
         {todosState.isLoading ? (
@@ -276,11 +284,15 @@ function App() {
               onCompleteTodo={onCompleteTodo}
               updateTodo={updateTodo}
             />
-            {errorMessage && (
+            {todosState.errorMessage && (
               <>
                 <hr />
-                <p>{errorMessage}</p>
-                <button onClick={() => setErrorMessage('')}>dismiss</button>
+                <p>{todosState.errorMessage}</p>
+                <button
+                  onClick={() => dispatch({ type: actionTypes.clearError })}
+                >
+                  dismiss
+                </button>
               </>
             )}
           </>

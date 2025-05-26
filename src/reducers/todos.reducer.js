@@ -4,7 +4,8 @@ export const actionTypes = {
   addTodo: 'addTodo',
   updateTodo: 'updateTodo',
   startRequest: 'startRequest',
-  errorMessage: 'errorMessage',
+  setLoadError: 'setLoadError',
+  clearError: 'clearError',
 };
 
 export const initialState = {
@@ -25,6 +26,17 @@ export function TodosReducer(state, action) {
       return {
         ...state,
         isSaving: true,
+      };
+    case actionTypes.setLoadError:
+      return {
+        ...state,
+        errorMessage: action.payload,
+        isLoading: false,
+      };
+    case actionTypes.clearError:
+      return {
+        ...state,
+        errorMessage: '',
       };
     case actionTypes.loadTodos:
       return {
@@ -67,29 +79,5 @@ export function TodosReducer(state, action) {
         }),
         isSaving: false,
       };
-
-    // const { records } = await resp.json();
-
-    //   const { id, fields } = records[0];
-
-    //   const editedTodoRecordToSet = {
-    //     id,
-    //     title: fields.title,
-    //     isCompleted: fields.isCompleted ?? false,
-    //   };
-
-    //   const updatedTodos = todosState.todoList.map((todo) => {
-    //     if (todo.id === id) {
-    //       return editedTodoRecordToSet;
-    //     }
-    //     return todo;
-    //   });
-
-    //   setTodoList([...updatedTodos]);
-    // case actionTypes.errorMessage:
-    //   return {
-    //     ...state,
-    //     errorMessage: action.payload,
-    //   };
   }
 }

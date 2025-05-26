@@ -1,28 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
+import StyledTitle from './StyledTitle';
 
-const Header = styled.h1`
-  font-family: italic;
-`;
-
-const GreenHeader = styled(Header)`
-  color: green;
-`;
-
-const LightBlueHeader = styled(Header)`
-  color: #add8e6;
-`;
-
-function Title({ title }) {
-  return <GreenHeader>{title}</GreenHeader>;
-}
-
-export function GreenTitle({ title }) {
-  return <GreenHeader>{title}</GreenHeader>;
-}
-
-export function LightBlueTitle({ title }) {
-  return <LightBlueHeader>{title}</LightBlueHeader>;
-}
+const Title = (/* { title, setTitle } */) => {
+  return <StyledTitle /* title={title} setTitle={setTitle} */ />;
+};
 
 export default Title;
