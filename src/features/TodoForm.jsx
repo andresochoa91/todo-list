@@ -1,10 +1,10 @@
 import React, { useContext, useRef, useState } from 'react';
 import '../App.css';
 import TextInputWithLabel from '../shared/TextInputWithLabel';
-import { Context } from '../AppContext';
+import { ExampleContext } from '../AppContext';
 
 function TodoForm({ onAddTodo, isSaving }) {
-  const { title, setTitle } = useContext(Context);
+  const { setTitle } = useContext(ExampleContext);
 
   const todoTitleInput = useRef('');
   const [workingTodo, setWorkingTodo] = useState('');
@@ -14,6 +14,7 @@ function TodoForm({ onAddTodo, isSaving }) {
     const title = workingTodo;
     const id = Date.now();
     const isCompleted = false;
+    setTitle(title);
     onAddTodo({ title, id, isCompleted });
     todoTitleInput.current.focus();
     setWorkingTodo('');
@@ -23,7 +24,6 @@ function TodoForm({ onAddTodo, isSaving }) {
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        setTitle(title + 'new');
         handleAddTodo(event);
       }}
     >

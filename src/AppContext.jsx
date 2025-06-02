@@ -1,16 +1,15 @@
-import React from 'react';
-import { createContext, useState } from 'react';
+import React, { useState } from 'react';
+import { createContext } from 'react';
 import App from './App';
 
-export const Context = createContext({});
+export const ExampleContext = createContext({});
 
 const AppContext = () => {
-  const [title, setTitle] = useState('Todo list');
-
+  const [title, setTitle] = useState('Todo list in context yay');
   return (
-    <Context.Provider value={{ title, setTitle }}>
+    <ExampleContext.Provider value={{ title, setTitle }}>
       <App />
-    </Context.Provider>
+    </ExampleContext.Provider>
   );
 };
 

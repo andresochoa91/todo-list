@@ -2,13 +2,13 @@ import React, { useState, useEffect, useMemo, useReducer } from 'react';
 import style from './App.module.css';
 import TodoList from './features/TodoList/TodoList';
 import TodoForm from './features/TodoForm';
-import Title from './Title';
 import TodosViewForm from './features/TodosViewForm';
 import {
   actionTypes,
   initialState,
   TodosReducer,
 } from './reducers/todos.reducer';
+import Header from './CustomHeader';
 
 function App() {
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
@@ -268,7 +268,7 @@ function App() {
   return (
     <div className={style.Body}>
       <div>
-        <Title /* title={title} setTitle={setTitle} */ />
+        <Header />
         <TodoForm
           onAddTodo={handleAddTodo}
           // workingTodo={workingTodo}
